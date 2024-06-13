@@ -6,9 +6,6 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: myuser
     password: secret
-  #liquibase:
-    #enabled: true
-    #change-log: db/changelog/db.changelog-master.yml
   jpa:
     hibernate:
       ddl-auto: create-drop
