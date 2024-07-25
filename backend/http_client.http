@@ -1,0 +1,57 @@
+### Login
+POST http://localhost:8080/auth/login
+content-type: application/json
+
+{
+  "email": "admin1@test.com",
+  "password": "pass_1234"
+}
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
+%}
+
+### Login
+POST http://localhost:8080/auth/refresh-token
+content-type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Authors list
+GET http://localhost:8080/api/authors
+content-type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create author
+POST http://localhost:8080/api/authors
+Content-Type: application/json; charset=UTF-8
+
+{
+  "firstName": "Houria",
+  "lastName": "hyttyrrt",
+  "gender": "FEMALE",
+  "birthday": null
+}
+
+### Update author
+PUT http://localhost:8080/api/authors/d0797a9c-a52d-4750-8c80-5f506c80b8f5
+Content-Type: application/json; charset=UTF-8
+
+{
+  "firstName": "Houria666",
+  "lastName": "hyttyrrt666",
+  "gender": "FEMALE",
+  "birthday": null
+}
+
+### Books list
+GET http://localhost:8080/books
+content-type: application/json
+Authorization: Bearer {{accessToken}}

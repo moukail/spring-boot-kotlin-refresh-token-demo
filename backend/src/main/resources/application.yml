@@ -1,6 +1,9 @@
 jwt:
   secret: your-secret-key
 spring:
+  data:
+    rest:
+      basePath: /api
   datasource:
     url: jdbc:postgresql://database:5432/mydatabase
     driver-class-name: org.postgresql.Driver

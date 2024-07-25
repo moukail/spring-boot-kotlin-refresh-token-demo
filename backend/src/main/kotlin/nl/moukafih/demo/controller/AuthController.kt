@@ -1,7 +1,7 @@
 package nl.moukafih.demo.controller
 
-import nl.moukafih.demo.config.SecurityConfig
 import nl.moukafih.demo.dto.LoginDTO
+import nl.moukafih.demo.dto.RefreshTokenDTO
 import nl.moukafih.demo.service.AuthService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -22,7 +21,6 @@ class AuthController(
 
     @PostMapping("/login")
     fun login(@RequestBody loginDTO: LoginDTO): ResponseEntity<Any> {
-        logger.warn("login")
         val tokens = authService.login(loginDTO)
         return if (tokens == null) {
             ResponseEntity.badRequest().body("Invalid credentials")
@@ -32,8 +30,9 @@ class AuthController(
     }
 
     @PostMapping("/refresh-token")
-    fun refreshToken(@RequestParam refreshToken: String): ResponseEntity<Any> {
-        val tokens = authService.refreshToken(refreshToken)
+    fun refreshToken(@RequestBody refreshTokenDTO: RefreshTokenDTO): ResponseEntity<Any> {
+        logger.warn("refreshToken")
+        val tokens = authService.refreshToken(refreshTokenDTO.refreshToken)
         return if (tokens == null) {
             ResponseEntity.badRequest().body("Invalid refresh token")
         } else {

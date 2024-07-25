@@ -1,0 +1,35 @@
+services:
+  backend:
+    container_name: backend
+    user: root
+    build:
+      context: .docker/backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend:/var/www
+      - gradle_home:/home/spring/.gradle
+    tty: true
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .docker/frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/var/www
+
+  database:
+    image: postgres:16.3-alpine3.20
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - 5432:5432
+
+volumes:
+  gradle_home:
